@@ -1,14 +1,18 @@
 class NumMatrix(val matrix: Array<IntArray>) {
+    private val dp = Array(matrix.size + 1) {
+        IntArray(matrix[0].size + 1) { 0 }
+    }
 
-    fun sumRegion(row1: Int, col1: Int, row2: Int, col2: Int): Int {
-        var sum = 0
-        for (i in row1..row2) {
-            for (j in col1..col2) {
-                sum += matrix[i][j]
+    init {
+        for (i in 1..matrix.size) {
+            for (j in 1..matrix[0].size) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + matrix[i - 1][j - 1]
             }
         }
+    }
 
-        return sum
+    fun sumRegion(row1: Int, col1: Int, row2: Int, col2: Int): Int {
+        return dp[row2 + 1][col2 + 1] - dp[row1][col2 + 1] - dp[row2 + 1][col1] + dp[row1][col1]
     }
 
 }
