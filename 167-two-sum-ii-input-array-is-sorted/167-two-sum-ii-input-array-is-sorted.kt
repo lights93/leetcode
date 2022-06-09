@@ -1,12 +1,19 @@
 class Solution {
     fun twoSum(numbers: IntArray, target: Int): IntArray {
-        for ((index, number) in numbers.withIndex()) {
-            val answer = numbers.binarySearch(target - number, index + 1)
-            if (answer > 0) {
-                return intArrayOf(index + 1, answer + 1)
+        var left = 0
+        var right = numbers.size - 1
+        while (left < right) {
+            val sum = numbers[left] + numbers[right]
+            if (sum == target) {
+                return intArrayOf(left + 1, right + 1)
+            }
+            if (sum < target) {
+                left++
+            } else {
+                right--
             }
         }
-
-        return intArrayOf()
+        
+        return intArrayOf(0, 0)
     }
 }
