@@ -8,18 +8,16 @@ class Solution {
         nums.indices
             .drop(1)
             .forEach {
+                up[it] = up[it - 1]
+                down[it] = down[it - 1]
+
                 if(nums[it - 1] > nums[it]) {
                     down[it] = up[it - 1] + 1
-                    up[it] = up[it - 1]
                 } else if(nums[it -1] < nums[it]) {
                     up[it] = down[it - 1] + 1
-                    down[it] = down[it - 1]
-                } else {
-                    up[it] = up[it - 1]
-                    down[it] = down[it - 1]
                 }
             }
-        
+
         return maxOf(up[up.lastIndex], down[down.lastIndex])
     }
 }
