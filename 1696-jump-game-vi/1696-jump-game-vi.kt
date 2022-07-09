@@ -2,7 +2,7 @@ import java.util.*
 
 class Solution {
     fun maxResult(nums: IntArray, k: Int): Int {
-        val queue = ArrayDeque<Int>()
+        val queue = ArrayDeque<Int>(k)
         queue.add(0)
         for (i in 1 until nums.size) {
             nums[i] += nums[queue.peekFirst()!!]
