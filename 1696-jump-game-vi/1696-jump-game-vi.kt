@@ -2,19 +2,19 @@ import java.util.*
 
 class Solution {
     fun maxResult(nums: IntArray, k: Int): Int {
-        val beforeList = LinkedList<Int>()
-        beforeList.add(0)
+        val queue = ArrayDeque<Int>()
+        queue.add(0)
         for (i in 1 until nums.size) {
-            nums[i] += nums[beforeList.first()]
+            nums[i] += nums[queue.peekFirst()!!]
 
-            while (beforeList.isNotEmpty() && nums[beforeList[beforeList.lastIndex]] <= nums[i]) {
-                beforeList.removeLast()
+            while (queue.isNotEmpty() && nums[queue.peekLast()!!] <= nums[i]) {
+                queue.pollLast()
             }
+            
+            queue.add(i)
 
-            beforeList.add(i)
-
-            if(beforeList[0] == i - k) {
-                beforeList.removeFirst()
+            if(queue.peekFirst() == i - k) {
+                queue.pollFirst()
             }
         }
 
