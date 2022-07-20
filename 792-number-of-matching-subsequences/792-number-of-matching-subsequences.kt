@@ -1,18 +1,33 @@
+import java.util.Deque
+import java.util.LinkedList
+
 class Solution {
     fun numMatchingSubseq(s: String, words: Array<String>): Int {
-        return words.filter { find(it, s) }
-            .count()
-    }
+        val map = HashMap<Char, Deque<String>>()
 
-    private fun find(word: String, s: String): Boolean {
-        var start = 0
-        for (c in word) {
-            val idx = s.indexOf(char = c, startIndex = start)
-            if (idx < 0) {
-                return false
-            }
-            start = idx + 1
+        for (c in 'a' .. 'z') {
+            map[c] = LinkedList<String>()
         }
-        return true
+
+        for (word in words) {
+            val queue = map[word[0]]!!
+            queue.addLast(word)
+        }
+
+        var answer = 0
+        for (c in s) {
+            val queue = map[c]!!
+
+            repeat(queue.size) {
+                val poll = queue.poll()!!
+                if(poll.length == 1) {
+                    answer++
+                } else {
+                    map[poll[1]]!!.addLast(poll.substring(1))
+                }
+            }
+        }
+        
+        return answer
     }
 }
